@@ -1,21 +1,23 @@
 ﻿@model MovieRecommender.Models.Movie
 
-@{ 
+@{
     string avgRating = Model.AvgRating.ToString();
-    if (avgRating == "1") { avgRating = "1.0"; }
-    else if (avgRating == "2") { avgRating = "2.0"; }
-    else if (avgRating == "3") { avgRating = "3.0"; }
-    else if (avgRating == "4") { avgRating = "4.0"; }
-    else if (avgRating == "5") { avgRating = "5.0"; }
-
+    avgRating = transformRating(avgRating);
     string userRating = Convert.ToString(ViewData["UserRating"]);
     if (!string.IsNullOrEmpty(userRating))
     {
-        if (userRating == "1") { userRating = "1.0"; }
-        else if (userRating == "2") { userRating = "2.0"; }
-        else if (userRating == "3") { userRating = "3.0"; }
-        else if (userRating == "4") { userRating = "4.0"; }
-        else if (userRating == "5") { userRating = "5.0"; }
+        userRating = transformRating(userRating);
+    }
+
+    string transformRating(string rating)
+    {
+        if (rating == "1") { rating = "1.0"; }
+        else if (rating == "2") { rating = "2.0"; }
+        else if (rating == "3") { rating = "3.0"; }
+        else if (rating == "4") { rating = "4.0"; }
+        else if (rating == "5") { rating = "5.0"; }
+
+        return rating;
     }
 }
 <div class="carousel-item @ViewData["Active"]">
