@@ -1,0 +1,103 @@
+﻿<script>
+    $(document).ready(function () {
+        $('.rateit').on('rated reset', function (e) {
+            var value = $(this).rateit('value');
+
+            if (e.type == "rated") {
+                $.ajax({
+                    url: "/Movies/UpdateRating",
+                    data: { userId: @Model.UserId, movieId: @Model.Movie.MovieId, ratingScore: value },
+                    type: 'PUT',
+                    success: function (data) {
+                        if (data != "Success")
+                            alert(data);
+                    },
+                    error: function (jxhr, msg, err) {
+                        alert(msg);
+                    }
+                });
+            }
+            else if (e.type == "reset") {
+                $.ajax({
+                    url: "/Movies/DeleteRating/@Model.UserId-@Model.Movie.MovieId",
+                    type: 'DELETE',
+                    success: function (data) {
+                        if (data != "Success")
+                            alert(data);
+                    },
+                    error: function (jxhr, msg, err) {
+                        alert(msg);
+                    }
+                });
+            }  
+        });
+
+        initialiseSearchBox(@Model.UserId);
+    }); 
+</script>
+
+@{
+    ViewData["Title"] = "Movie Details";
+
+    string[] genresArr = Model.Movie.Genres.Split("|");
+    string genres = "";
+    foreach (string genre in genresArr)
+    {
+        genres += genre + ", ";
+    }
+
+    genres = genres.Substring(0, genres.Length - 2);
+}
+
+@model MovieRecommender.Models.MovieDetailsViewModel
+
+<div class="container my-3">
+    @if (!string.IsNullOrEmpty(Model.Exception))
+    {
+        <div class="alert alert-danger mt-5">
+            <strong>Error:</strong> @Model.Exception
+        </div>
+    }
+    else
+    {
+        <div class="row mt-5">
+            <div class="col-4">
+                <img class="card-img-top" src="@Model.Movie.PosterLink" style="max-height:400px; width:auto">
+            </div>
+            <div class="col-8">
+                <h2 class="mb-5">@Model.Movie.Title</h2>
+                <div class="row">
+                    <div class="col-6">
+                        <b>Genres</b>
+                        <p>@genres</p>
+                        <br />
+                        <b>Links</b>
+                        <p><a href="@string.Format("http://www.imdb.com/title/tt{0}", Model.Movie.ImdbId)">imdb</a>, <a href="@string.Format("https://www.themoviedb.org/movie/{0}", Model.Movie.TmdbId)">tmdb</a></p>
+                        <br />
+                        <div class="mb-1">
+                            <b>Rate it</b>
+                        </div>
+                        @if (@Model.Rating == null)
+                        {
+                            <div class="rateit"></div>
+                        }
+                        else
+                        {
+                            <div class="rateit" data-rateit-value="@Model.Rating.RatingScore"></div>
+                        }
+                    </div>
+                    <div class="col-6">
+                        <b>We predict for you</b>
+                        <p>@Model.PredictedRating stars</p>
+                        <br />
+                        <b>Average of @Model.NumOfRatings ratings</b>
+                        <p>@Model.Movie.AvgRating stars</p>
+                        <br />
+                        <b>Released</b>
+                        <p>@Model.Movie.Released</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

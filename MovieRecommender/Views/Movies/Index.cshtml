@@ -1,0 +1,110 @@
+﻿<script>
+    initialiseCarousel();
+    $(document).ready(function () {
+        initialiseSearchBox(@Model.UserId);
+    });
+
+    // this forces a reload of the page when user clicks back button this is needed because 
+    // the user's ratings are cached and you can't see a difference after the user makes a rating on the details page
+    if(performance.navigation.type == 2) { 
+       location.reload(true);
+    }
+</script>
+@{
+    ViewData["Title"] = "Home";
+}
+
+@model MovieRecommender.Models.MoviesViewModel
+
+<div class="container my-3">
+    @if (!string.IsNullOrEmpty(Model.Exception))
+    {
+        <div class="alert alert-danger mt-5">
+            <strong>Error:</strong> @Model.Exception
+        </div>
+    }
+    else
+    {
+        @if (Model.SearchTermFilter != null)
+        {
+            <h3 class="mb-4">Searched for @Model.SearchTermFilter</h3>
+        }
+        else if (Model.GenreFilter != null)
+        {
+            <h3 class="mb-4">@Model.GenreFilter</h3>
+        }
+        else
+        {
+            <h3 class="mb-4">New Releases</h3>
+        }
+        <div class="row mx-auto my-auto">
+            <div id="filteredCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+
+                    @Html.Partial("_CarouselPartial.cshtml", Model.FilteredMovies[0], new ViewDataDictionary(ViewData)
+                    {
+                        { "Active", "active" },
+                        { "UserRating", Model.UsersRatings.Where(m => m.MovieId.ToString() == Model.FilteredMovies[0].MovieId).Select(m => m.RatingScore).FirstOrDefault()},
+                        { "UserId", Model.UserId }
+                    })
+
+                    @for (int i = 1; i < Model.FilteredMovies.Count; i++)
+                    {
+                        @Html.Partial("_CarouselPartial.cshtml", Model.FilteredMovies[i], new ViewDataDictionary(ViewData)
+                        {
+                            { "Active", "" },
+                            { "UserRating", Model.UsersRatings.Where(m => m.MovieId.ToString() == Model.FilteredMovies[i].MovieId).Select(m => m.RatingScore).FirstOrDefault()},
+                            { "UserId", Model.UserId }
+                        })
+                    }
+                </div>
+
+                <a class="carousel-control-prev w-auto" href="#filteredCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next w-auto" href="#filteredCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <h5 class="text-right mt-4">Showing @Model.FilteredMovies.Count results</h5>
+
+        <!-- --- Movie Recommendations Section --- -->
+        <h3 class="text-left mb-4">Recommendations For You</h3>
+        <div class="row mx-auto my-auto">
+            <div id="recommendationsCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner" role="listbox">
+
+                    @Html.Partial("_CarouselPartial.cshtml", Model.Recommendations[0], new ViewDataDictionary(ViewData)
+                    {
+                        { "Active", "active" },
+                        { "UserRating", Model.UsersRatings.Where(m => m.MovieId == Model.Predictions.MovieIds[0]).Select(m => m.RatingScore).FirstOrDefault()},
+                        { "UserId", Model.UserId }
+                    })
+
+                    @for (int i = 1; i < Model.Recommendations.Count(); i++)
+                    {
+                        @Html.Partial("_CarouselPartial.cshtml", Model.Recommendations[i], new ViewDataDictionary(ViewData)
+                        {
+                            { "Active", "" },
+                            { "UserRating", Model.UsersRatings.Where(m => m.MovieId == Model.Predictions.MovieIds[i]).Select(m => m.RatingScore).FirstOrDefault()},
+                            { "UserId", Model.UserId }
+                        })
+                    }
+                </div>
+
+                <a class="carousel-control-prev w-auto" href="#recommendationsCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next w-auto" href="#recommendationsCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon bg-dark border border-dark rounded-circle" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <h5 class="text-right mt-4">Showing @Model.Recommendations.Count() recommendations</h5>
+    }
+</div>

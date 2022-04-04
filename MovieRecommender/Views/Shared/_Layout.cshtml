@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MovieRecommender</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/rateit/css/rateit.css">
+    <link rel="stylesheet" href="~/css/token-input-facebook.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/rateit/js/jquery.rateit.js"></script>
+    <script src="~/js/jquery.tokeninput.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</head>
+<body>
+    @if (Model != null)
+    {
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container">
+                    <a class="navbar-brand">CloudMovies</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex">
+                        <ul class="navbar-nav flex-grow-1" style="max-width:600px">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/Movies/Index?userId=@Model.UserId">New Releases</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" role="button" data-toggle="dropdown">
+                                    Genres
+                                </a>
+                                <div class="dropdown-menu" style="width:450px">
+                                    <div class="row" style="margin:0">
+                                        <div class="col-sm-4" style="padding-right:0px;">
+                                            @foreach (string genre in Model.GenresColOne)
+                                            {
+                                                <a class="dropdown-item" style="padding-left:12px; padding-right:0;" href="/Movies/Index?userId=@Model.UserId&genre=@genre">@genre</a>
+                                            }
+                                        </div>
+                                        <div class="col-sm-4" style="padding-right:0px;">
+                                            @foreach (string genre in Model.GenresColTwo)
+                                            {
+                                                <a class="dropdown-item" style="padding-left:12px; padding-right:0;" href="/Movies/Index?userId=@Model.UserId&genre=@genre">@genre</a>
+                                            }
+                                        </div>
+                                        <div class="col-sm-4" style="padding-right:0px;">
+                                            @foreach (string genre in Model.GenresColThree)
+                                            {
+                                                <a class="dropdown-item" style="padding-left:12px; padding-right:0;" href="/Movies/Index?userId=@Model.UserId&genre=@genre">@genre</a>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="#" onclick="startDatabricksJob(@Model.UserId)">Force Run Recommendations</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="/Movies/Login">Log Out</a>
+                            </li>
+                        </ul>
+                        <div class="input-group w-50" style="max-width:330px">
+                            <input type="text" id="movieSearch" minlength="3">
+                            <a id="searchButton" class="btn border" onclick="goToSearchResults(@Model.UserId)" style="max-height:34px">
+                                <i class="fas fa-search fa-lg"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+    }
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2019 - MovieRecommender - Nenad Srbinovski</a>
+        </div>
+    </footer>
+
+</body>
+</html>
