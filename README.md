@@ -1,1 +1,21 @@
-MovieRecommender
+### MovieRecommender
+
+Purpose of the website was to help users find a movie they would like by providing filtering and searching capabilities, as well as providing recommendations. All movie details, user ratings and recommendation data are stored in a CosmosDB. To obtain recommendations a machine learning (Collaborative Filtering) technique is used through a DataBricks job leveraging a Spark cluster and the Spark framework. More specifically, an Alternating Least Squares (ALS) algorithm is used.
+
+Initial data was obtained from https://grouplens.org/datasets/movielens/
+The small dataset was used which contains: 100,000 ratings applied to 9,000 movies by 600 users. Last updated 9/2018.
+
+The webapp is hosted as an Azure Webapp Service and can be found here: https://nenad-movierecommender.azurewebsites.net
+To have a play with it you can use the userId=325 on the login screen.
+ 
+Functionality/Skills incorporated:
+- Filtering by genre
+- Search bar text search
+- Search bar suggestions after 3 entered characters
+- Carousel automatic sliding and manual left/right slide
+- Rating widget:
+	- Can add/update/delete ratings
+- Force Run Recommendations menu item:
+	- Used for demonstration purposes, to demonstrate recommendation updates (after ratings some movies)
+	- Uses the DataBricks API to trigger a job which runs a notebook
+	- The notebook recalculates all of the predictions and only updates the current user's recommendations in CosmosDB (it does not update all user's ratings as that is more time consuming)
