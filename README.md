@@ -9,6 +9,7 @@ The webapp is hosted as an Azure Webapp Service and can be found here: https://n
 To have a play with it you can use the userId=325 on the login screen.
  
 Functionality/Skills incorporated:
+- Queries, inserts and deletes data from a distributed data storage (CosmosDB)
 - Filtering by genre
 - Search bar text search
 - Search bar suggestions after 3 entered characters
