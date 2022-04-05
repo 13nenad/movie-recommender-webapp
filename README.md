@@ -9,7 +9,7 @@ The small dataset was used which contains: 100,000 ratings applied to 9,000 movi
 ### Webapp
 - The webapp is hosted as an Azure Webapp Service and can be found here: https://nenad-movierecommender.azurewebsites.net
 - To have a play with it you can use the userId=325 on the login screen
-- .NET 6 SDK
+- ASP.NET Core using .NET SDK 6.0
 - MVC pattern using Razor pages
 - Published using GitHub Actions (publish is triggered upon push to master)
  
@@ -25,4 +25,9 @@ The small dataset was used which contains: 100,000 ratings applied to 9,000 movi
 	- Used for demonstration purposes, to demonstrate recommendation updates (after ratings some movies)
 	- Uses the DataBricks API to trigger a job which runs a notebook
 	- The notebook recalculates all of the predictions and only updates the current user's recommendations in CosmosDB (it does not update all user's ratings as that is more time consuming)
+	- Note that this functionailty will only work if the cluster is active, and to save money it is inactive by default
 - CI/CD pipeline (GitHub)
+
+### Architecture
+
+![image](https://user-images.githubusercontent.com/5523082/161686357-e637dfc6-5056-487c-bca8-891765f5adf7.png)
