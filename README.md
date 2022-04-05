@@ -5,8 +5,12 @@ Purpose of the website was to help users find a movie they would like by providi
 Initial data was obtained from https://grouplens.org/datasets/movielens/
 The small dataset was used which contains: 100,000 ratings applied to 9,000 movies by 600 users. Last updated 9/2018.
 
-The webapp is hosted as an Azure Webapp Service and can be found here: https://nenad-movierecommender.azurewebsites.net
-To have a play with it you can use the userId=325 on the login screen.
+Webapp
+- The webapp is hosted as an Azure Webapp Service and can be found here: https://nenad-movierecommender.azurewebsites.net
+- To have a play with it you can use the userId=325 on the login screen
+- .NET 6 SDK
+- MVC pattern
+- Published using GitHub Actions (publish is triggered upon push to master)
  
 Functionality/Skills incorporated:
 - Queries, inserts and deletes data from a distributed data storage (CosmosDB)
@@ -20,3 +24,4 @@ Functionality/Skills incorporated:
 	- Used for demonstration purposes, to demonstrate recommendation updates (after ratings some movies)
 	- Uses the DataBricks API to trigger a job which runs a notebook
 	- The notebook recalculates all of the predictions and only updates the current user's recommendations in CosmosDB (it does not update all user's ratings as that is more time consuming)
+- CI/CD pipeline (GitHub)
