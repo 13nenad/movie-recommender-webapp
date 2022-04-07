@@ -9,7 +9,7 @@ The small dataset was used which contains: 100,000 ratings applied to 9,000 movi
 ### Webapp
 - The webapp is hosted as an Azure Webapp Service and can be found here: https://nenad-movierecommender.azurewebsites.net
 - To have a play with it you can use the userId=325 on the login screen
-- ASP.NET Core using .NET SDK 6.0
+- ASP.NET Core using .NET SDK 6.0 (C#)
 - MVC pattern using Razor pages
 - Published using GitHub Actions (publish is triggered upon push to master)
  
