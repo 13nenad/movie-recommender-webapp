@@ -30,4 +30,4 @@ The small dataset was used which contains: 100,000 ratings applied to 9,000 movi
 
 ### Architecture
 
-![image](https://user-images.githubusercontent.com/5523082/161686357-e637dfc6-5056-487c-bca8-891765f5adf7.png)
+![image](https://user-images.githubusercontent.com/5523082/162183282-08749ef2-5f5c-4a43-8fbc-f161a5fb4435.png)
